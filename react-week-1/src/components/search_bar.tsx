@@ -7,7 +7,7 @@ class Search extends React.Component<{}, ISearchState> {
         this.handleInput = this.handleInput.bind(this);
     }
     componentDidMount() {
-        this.setState({value: localStorage.getItem("searchBarValue")!});
+        this.setState({value: localStorage.getItem("searchBarValue") || ''});
     }
     componentWillUnmount() {
         localStorage.setItem("searchBarValue", this.state.value);
