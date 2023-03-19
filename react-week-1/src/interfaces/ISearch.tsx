@@ -1,4 +1,4 @@
 interface ISearchState {
-    value: string;
+  value: string;
 }
 export default ISearchState;

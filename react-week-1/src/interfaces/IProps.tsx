@@ -1,5 +1,5 @@
-import ICard from "./ICard";
+import ICard from './ICard';
 interface ICardProps {
-    card: ICard;
+  card: ICard;
 }
 export default ICardProps;
