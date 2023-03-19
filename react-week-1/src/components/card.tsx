@@ -1,7 +1,12 @@
 import React from "react"
-import ICard from "../interfaces/ICard";
-class Card extends React.Component {
-    constructor(props: ICard) {
+import ICardProps from "../interfaces/IProps";
+
+class Card extends React.Component<ICardProps> {
+        title: string;
+        price: number;
+        rating: number;
+        thumbnail: string;
+    constructor(props: ICardProps) {
         super(props);
         this.title = props.card.title;
         this.price = props.card.price;
@@ -9,7 +14,6 @@ class Card extends React.Component {
         this.thumbnail = props.card.thumbnail;
     }
     render() {
-        console.log(this.thumbnail)
         return (
             <div className="card_container">
                 <img className="card_container_img" loading="lazy" src={this.thumbnail} alt="card" />

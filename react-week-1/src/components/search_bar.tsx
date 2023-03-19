@@ -1,20 +1,19 @@
 import React from "react"
-
-class Search extends React.Component {
-    constructor(props) {
+import ISearchState from "../interfaces/ISearch";
+class Search extends React.Component<{}, ISearchState> {
+    constructor(props: {}) {
         super(props);
         this.state = {value: ''};
         this.handleInput = this.handleInput.bind(this);
     }
     componentDidMount() {
-        this.setState({value: localStorage.getItem("searchBarValue")});
+        this.setState({value: localStorage.getItem("searchBarValue")!});
     }
     componentWillUnmount() {
         localStorage.setItem("searchBarValue", this.state.value);
     }
-    handleInput(event) {
+    handleInput(event: React.ChangeEvent<HTMLInputElement>) {
         this.setState({value: event.target.value});
-        this.value = event.target.value;
     }
     render() {  
         return (
