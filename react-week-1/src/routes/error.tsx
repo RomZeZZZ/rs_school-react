@@ -3,7 +3,9 @@ class Error extends React.Component {
   render() {
     return (
       <main className="main">
-        <div className="error_page">404. Page not found</div>
+        <div data-testid="errorDiv" className="error_page">
+          404. Page not found
+        </div>
       </main>
     );
   }

@@ -6,6 +6,7 @@ class Card extends React.Component<ICardProps> {
   price: number;
   rating: number;
   thumbnail: string;
+
   constructor(props: ICardProps) {
     super(props);
     this.title = props.card.title;
@@ -15,7 +16,7 @@ class Card extends React.Component<ICardProps> {
   }
   render() {
     return (
-      <div className="card_container">
+      <div data-testid="card" className="card_container">
         <img className="card_container_img" loading="lazy" src={this.thumbnail} alt="card" />
         <div className="card_container_info">
           <div>{this.title}</div>
