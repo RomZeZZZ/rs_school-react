@@ -8,7 +8,7 @@ class Root extends React.Component {
                     <div className="container">
                         <Search />
                         <div className="card_field">
-                            {cardsDb.map((item) => <Card card={item} />)}
+                            {cardsDb.map((item) => <Card key={item.id} card={item} />)}
                         </div>
                     </div>
                 </main>);   

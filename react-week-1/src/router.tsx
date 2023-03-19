@@ -10,7 +10,7 @@ class Router extends React.Component {
             <BrowserRouter>
                 <Header />
                 <Routes>
-                    <Route path="/" element={<Root />} />
+                    <Route path="/" element={<Root />}/>
                     <Route path="/about" element={<About />} />
                     <Route path="*" element={<Error />} />
                 </Routes>
