@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
