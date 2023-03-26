@@ -1,7 +1,7 @@
 interface IForm {
-  name: string;
-  country: string;
-  surname: string;
+  name: string | undefined;
+  country: string | undefined;
+  surname: string | undefined;
   gender: string;
   img: string;
 }

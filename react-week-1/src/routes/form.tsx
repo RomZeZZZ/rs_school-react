@@ -7,7 +7,8 @@ class SignUp extends React.Component<object, ISignState> {
   inputName: RefObject<HTMLInputElement>;
   inputSurname: RefObject<HTMLInputElement>;
   inputCountry: RefObject<HTMLSelectElement>;
-  inputGender: RefObject<HTMLInputElement>;
+  inputGenderMale: RefObject<HTMLInputElement>;
+  inputGenderFemale: RefObject<HTMLInputElement>;
   inputConsent: RefObject<HTMLInputElement>;
   inputImg: string | null;
   constructor(props: IForm) {
@@ -18,7 +19,8 @@ class SignUp extends React.Component<object, ISignState> {
     this.inputName = React.createRef();
     this.inputSurname = React.createRef();
     this.inputCountry = React.createRef();
-    this.inputGender = React.createRef();
+    this.inputGenderMale = React.createRef();
+    this.inputGenderFemale = React.createRef();
     this.inputConsent = React.createRef();
     this.inputImg = null;
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,16 +30,17 @@ class SignUp extends React.Component<object, ISignState> {
   handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (this.validateForm()) {
-      const name = this.inputName.current.value;
-      const country = this.inputCountry.current.value;
-      const surname = this.inputSurname.current.value;
-      const gender = this.inputGender.current.checked ? 'Female' : 'Male';
+      const name = this.inputName.current?.value;
+      const country = this.inputCountry.current?.value;
+      const surname = this.inputSurname.current?.value;
+      const gender = this.inputGenderMale.current?.checked ? 'Female' : 'Male';
       const img = this.inputImg === null ? 'https://i.ibb.co/cCX7H8d/pngegg.png' : this.inputImg;
       const newCard = { name, country, surname, gender, img };
       const cards = [...this.state.cards, newCard];
       this.setState({ cards });
       this.inputImg = null;
       event.currentTarget.reset();
+      alert('Card is created');
     }
   }
   handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
@@ -49,8 +52,14 @@ class SignUp extends React.Component<object, ISignState> {
     };
   }
   validateForm(): boolean {
-    console.log(this.inputName.current?.value);
-    if (!this.inputName.current?.value || !this.inputSurname.current?.value) {
+    console.log(this.inputConsent.current?.checked);
+    if (
+      !this.inputName.current?.value ||
+      !this.inputSurname.current?.value ||
+      (!this.inputGenderMale.current?.checked && !this.inputGenderFemale.current?.checked) ||
+      !(this.inputCountry.current?.value !== 'noValue') ||
+      !this.inputConsent.current?.checked
+    ) {
       alert('Please fill out all required fields.');
       return false;
     } else {
@@ -71,7 +80,7 @@ class SignUp extends React.Component<object, ISignState> {
               ref={this.inputName}
             />
           </label>
-          <label className="form_label">
+          <label data-testid="surname" className="form_label">
             Surname:
             <input
               placeholder="Enter your surname"
@@ -92,8 +101,8 @@ class SignUp extends React.Component<object, ISignState> {
           </label>
           <label className="form_label">
             Country:
-            <select className="form_input_select" defaultValue="Choise" ref={this.inputCountry}>
-              <option value="Choise">Your country</option>
+            <select className="form_input_select" defaultValue="noValue" ref={this.inputCountry}>
+              <option value="noValue">Your country</option>
               <option value="Belarus">Belarus</option>
               <option value="Poland">Poland</option>
               <option value="Germany">Germany</option>
@@ -102,8 +111,8 @@ class SignUp extends React.Component<object, ISignState> {
           </label>
           <label className="form_label">
             Gender:
-            <input type="radio" name="gender" value="male" ref={this.inputGender} /> Male
-            <input type="radio" name="gender" value="female" ref={this.inputGender} /> Female
+            <input type="radio" name="gender" value="male" ref={this.inputGenderMale} /> Male
+            <input type="radio" name="gender" value="female" ref={this.inputGenderFemale} /> Female
           </label>
           <label className="form_label">
             <input type="checkbox" ref={this.inputConsent} />I consent to my personal data

@@ -73,6 +73,8 @@
 }
 .card_img {
   width: 180px;
+  height: 180px;
+  border-radius: 10px;
 }
 input[type="radio"] {
   transform: translateX(35px);
