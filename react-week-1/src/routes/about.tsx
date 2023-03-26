@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/error.css';
 class About extends React.Component {
   render() {
     return (

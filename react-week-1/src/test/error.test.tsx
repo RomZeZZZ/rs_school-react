@@ -1,4 +1,4 @@
-import Error from './routes/error';
+import Error from '../routes/error';
 import { render, screen } from '@testing-library/react';
 import { expect } from 'vitest';
 import React from 'react';

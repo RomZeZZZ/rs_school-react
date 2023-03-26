@@ -18,6 +18,11 @@ class Header extends React.Component {
                   About us
                 </Link>
               </li>
+              <li>
+                <Link className="header_nav_list_link" to="/sign-up">
+                  Sign Up
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>

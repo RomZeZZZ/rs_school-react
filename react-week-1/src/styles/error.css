@@ -1,0 +1,8 @@
+.error_page, .about_us_page {
+    font-size: 36px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+  }

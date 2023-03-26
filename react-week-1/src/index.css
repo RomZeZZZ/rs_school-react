@@ -12,7 +12,7 @@
   justify-content: end;
 }
 .header_nav {
-  width: 240px;
+  width: 340px;
   font-size: 24px;
 
 }
@@ -26,61 +26,4 @@
 }
 .header_nav_list_link {
   text-decoration: none;
-}
-.error_page, .about_us_page {
-  font-size: 36px;
-  font-weight: 400;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-}
-/*---------------------Cards--------------------*/
-.card_field {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.card_container {
-  margin: 10px;
-  width: 200px;
-  height: 220px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
-  box-shadow: 0 16px 32px rgb(0 0 0 / 30%);
-}
-.card_container_img {
-  width: 200px;
-  height: 150px;
-}
-.card_container_info {
-  text-align: center;
-}
-/*------------------Search bar------------------*/
-.main_search {
-  display: block;
-  margin: 0 auto;
-  margin-top: 15px;
-  width: 30%;
-  padding: 5px;
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #212529;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #bdbdbd;
-  border-radius: 0.25rem;
-}
-
-.main_search:focus {
-  color: #212529;
-  background-color: #fff;
-  border-color: #bdbdbd;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(158, 158, 158, 0.25);
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import Search from '../components/search_bar';
 import Card from '../components/card';
 import cardsDb from '../components/db';
+import '../styles/root.css';
 class Root extends React.Component {
   render() {
     return (

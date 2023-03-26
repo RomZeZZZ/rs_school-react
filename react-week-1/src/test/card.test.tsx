@@ -1,5 +1,5 @@
-import Card from './components/card';
-import Root from './routes/root';
+import Card from '../components/card';
+import Root from '../routes/root';
 import { render, screen } from '@testing-library/react';
 import { expect } from 'vitest';
 import React from 'react';
