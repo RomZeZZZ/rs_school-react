@@ -1,7 +1,8 @@
 import React, { RefObject } from 'react';
 import '../styles/form.css';
 import IForm from 'interfaces/IForm';
-import ISignState from 'interfaces/ISignState';
+import ISignState from '../interfaces/ISignState';
+import SignCard from '../components/signCard';
 class SignUp extends React.Component<object, ISignState> {
   inputName: RefObject<HTMLInputElement>;
   inputSurname: RefObject<HTMLInputElement>;
@@ -26,27 +27,35 @@ class SignUp extends React.Component<object, ISignState> {
 
   handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const name = this.inputName.current.value;
-    const country = this.inputCountry.current.value;
-    const text = this.inputSurname.current.value;
-    const gender = this.inputGender.current.checked ? 'Female' : 'Male';
-    const consent = this.inputConsent.current;
-    const img = this.inputImg === null ? 'https://i.ibb.co/cCX7H8d/pngegg.png' : this.inputImg;
-    const newCard = { name, country, text, gender, consent, img };
-    const cards = [...this.state.cards, newCard];
-    console.log(consent?.value);
-    this.setState({ cards });
-    this.inputImg = null;
-    event.currentTarget.reset();
+    if (this.validateForm()) {
+      const name = this.inputName.current.value;
+      const country = this.inputCountry.current.value;
+      const surname = this.inputSurname.current.value;
+      const gender = this.inputGender.current.checked ? 'Female' : 'Male';
+      const img = this.inputImg === null ? 'https://i.ibb.co/cCX7H8d/pngegg.png' : this.inputImg;
+      const newCard = { name, country, surname, gender, img };
+      const cards = [...this.state.cards, newCard];
+      this.setState({ cards });
+      this.inputImg = null;
+      event.currentTarget.reset();
+    }
   }
   handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     const reader = new FileReader();
     reader.readAsDataURL(file!);
     reader.onload = (e) => {
-      console.log(e.target?.result);
       this.inputImg = e.target?.result as string;
     };
+  }
+  validateForm(): boolean {
+    console.log(this.inputName.current?.value);
+    if (!this.inputName.current?.value || !this.inputSurname.current?.value) {
+      alert('Please fill out all required fields.');
+      return false;
+    } else {
+      return true;
+    }
   }
   render() {
     const { cards } = this.state;
@@ -73,10 +82,6 @@ class SignUp extends React.Component<object, ISignState> {
           </label>
           <label className="form_label">
             Picture:
-            <label className="input_file_label" htmlFor="files">
-              {' '}
-              Select picture
-            </label>
             <input
               className="input_file"
               id="files"
@@ -107,13 +112,7 @@ class SignUp extends React.Component<object, ISignState> {
         </form>
         <div className="field_card">
           {cards.map((card, index) => (
-            <div className="card" key={index}>
-              <p>Name: {card.name}</p>
-              <p>Surname: {card.text}</p>
-              <p>Country: {card.country}</p>
-              <p>Gender: {card.gender}</p>
-              <img className="card_img" src={card.img} alt="Profile picture" />
-            </div>
+            <SignCard key={index} {...card} />
           ))}
         </div>
       </div>

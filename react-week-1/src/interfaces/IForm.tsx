@@ -1,9 +1,8 @@
 interface IForm {
   name: string;
   country: string;
-  text: string;
+  surname: string;
   gender: string;
-  consent: boolean;
-  img: string | null;
+  img: string;
 }
 export default IForm;

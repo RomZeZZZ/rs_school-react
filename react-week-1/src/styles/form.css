@@ -78,11 +78,8 @@ input[type="radio"] {
   transform: translateX(35px);
 }
 input[type="file"] {
-  display: none;
+  transform: translateX(30px);
 }
 input:hover, .input_file_label:hover {
   cursor: pointer;
-}
-.input_file_label {
-  background: 'url(./images/upload-file.png)';
 }
