@@ -1,0 +1,29 @@
+*{
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+}
+.header {
+  background-color: #e1eefb;
+  max-width: 100%;
+  min-height: 80px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.header_nav {
+  width: 340px;
+  font-size: 24px;
+
+}
+.header_nav_list {
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  list-style-type: none;
+  text-decoration: none;
+}
+.header_nav_list_link {
+  text-decoration: none;
+}
