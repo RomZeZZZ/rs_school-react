@@ -10,10 +10,6 @@ test('Test Form submit', () => {
 
   const inputName = screen.getByPlaceholderText('Enter your name');
   const inputSurname = screen.getByPlaceholderText('Enter your surname');
-  // const inputCountry =
-  // const inputGenderMale =
-  // const inputGenderFemale =
-  // const inputConsent =
   fireEvent.change(inputName, { target: { value: 'ROMAN' } });
   fireEvent.change(inputSurname, { target: { value: 'TEST' } });
   fireEvent.click(screen.getByText('Submit'));
