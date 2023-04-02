@@ -1,30 +1,16 @@
 import React from 'react';
-import ICardProps from '../interfaces/IProps';
+import ICardProps from '../interfaces/ICardProps';
 
-class Card extends React.Component<ICardProps> {
-  title: string;
-  price: number;
-  rating: number;
-  thumbnail: string;
-
-  constructor(props: ICardProps) {
-    super(props);
-    this.title = props.card.title;
-    this.price = props.card.price;
-    this.rating = props.card.rating;
-    this.thumbnail = props.card.thumbnail;
-  }
-  render() {
-    return (
-      <div data-testid="card" className="card_container">
-        <img className="card_container_img" loading="lazy" src={this.thumbnail} alt="card" />
-        <div className="card_container_info">
-          <div>{this.title}</div>
-          <div>Price: {this.price}$ </div>
-          <div>Rating: {this.rating}</div>
-        </div>
+function Card({ card }: { card: ICardProps }) {
+  return (
+    <div data-testid="card" className="card_container">
+      <img className="card_container_img" loading="lazy" src={card.thumbnail} alt="card" />
+      <div className="card_container_info">
+        <div>{card.title}</div>
+        <div>Price: {card.price}$ </div>
+        <div>Rating: {card.rating}</div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 export default Card;

@@ -1,8 +1,8 @@
-interface ICard {
+interface ICardProps {
   id: number;
   title: string;
   price: number;
   rating: number;
   thumbnail: string;
 }
-export default ICard;
+export default ICardProps;
