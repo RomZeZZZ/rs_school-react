@@ -7,6 +7,7 @@ import SignCard from '../components/signCard';
 function SignUp() {
   const [cards, setCards] = useState<IFormData[]>([]);
   const [imgSrc, setImgSrc] = useState<string>('https://i.ibb.co/cCX7H8d/pngegg.png');
+  const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
   const {
     register,
     handleSubmit,
@@ -15,7 +16,12 @@ function SignUp() {
   } = useForm<IFormData>();
   const onSubmit = handleSubmit((data) => {
     data.img = imgSrc;
+    setImgSrc('https://i.ibb.co/cCX7H8d/pngegg.png');
     setCards([...cards, data]);
+    setIsSubmitSuccessful(true);
+    setTimeout(() => {
+      setIsSubmitSuccessful(false);
+    }, 1200);
     reset();
   });
   function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
@@ -28,6 +34,7 @@ function SignUp() {
   }
   return (
     <div>
+      {isSubmitSuccessful && <p className="submit">Form submitted successfully!</p>}
       <form className="form" onSubmit={onSubmit}>
         <label className="form_label">
           Name:
