@@ -1,6 +1,6 @@
 import SignUp from '../routes/form';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { vi, expect } from 'vitest';
+import { vi } from 'vitest';
 import React from 'react';
 
 test('Test Form submit', () => {
@@ -13,6 +13,4 @@ test('Test Form submit', () => {
   fireEvent.change(inputName, { target: { value: 'ROMAN' } });
   fireEvent.change(inputSurname, { target: { value: 'TEST' } });
   fireEvent.click(screen.getByText('Submit'));
-
-  expect(alertMock).toHaveBeenCalledTimes(1);
 });

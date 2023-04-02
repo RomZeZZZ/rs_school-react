@@ -85,3 +85,9 @@ input[type="file"] {
 input:hover, .input_file_label:hover {
   cursor: pointer;
 }
+.error-message {
+  position: absolute;
+  color: red;
+  font-size: 10px;
+  transform: translateY(20px);
+}

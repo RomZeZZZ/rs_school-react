@@ -1,131 +1,100 @@
-import React, { RefObject } from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import '../styles/form.css';
-import IForm from 'interfaces/IForm';
-import ISignState from '../interfaces/ISignState';
+import IFormData from 'interfaces/IForm';
 import SignCard from '../components/signCard';
-class SignUp extends React.Component<object, ISignState> {
-  inputName: RefObject<HTMLInputElement>;
-  inputSurname: RefObject<HTMLInputElement>;
-  inputCountry: RefObject<HTMLSelectElement>;
-  inputGenderMale: RefObject<HTMLInputElement>;
-  inputGenderFemale: RefObject<HTMLInputElement>;
-  inputConsent: RefObject<HTMLInputElement>;
-  inputImg: string | null;
-  constructor(props: IForm) {
-    super(props);
-    this.state = {
-      cards: [],
-    };
-    this.inputName = React.createRef();
-    this.inputSurname = React.createRef();
-    this.inputCountry = React.createRef();
-    this.inputGenderMale = React.createRef();
-    this.inputGenderFemale = React.createRef();
-    this.inputConsent = React.createRef();
-    this.inputImg = null;
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleFileUpload = this.handleFileUpload.bind(this);
-  }
 
-  handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (this.validateForm()) {
-      const name = this.inputName.current?.value;
-      const country = this.inputCountry.current?.value;
-      const surname = this.inputSurname.current?.value;
-      const gender = this.inputGenderMale.current?.checked ? 'Female' : 'Male';
-      const img = this.inputImg === null ? 'https://i.ibb.co/cCX7H8d/pngegg.png' : this.inputImg;
-      const newCard = { name, country, surname, gender, img };
-      const cards = [...this.state.cards, newCard];
-      this.setState({ cards });
-      this.inputImg = null;
-      event.currentTarget.reset();
-      alert('Card is created');
-    }
-  }
-  handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
+function SignUp() {
+  const [cards, setCards] = useState<IFormData[]>([]);
+  const [imgSrc, setImgSrc] = useState<string>('https://i.ibb.co/cCX7H8d/pngegg.png');
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IFormData>();
+  const onSubmit = handleSubmit((data) => {
+    data.img = imgSrc;
+    setCards([...cards, data]);
+    reset();
+  });
+  function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     const reader = new FileReader();
     reader.readAsDataURL(file!);
     reader.onload = (e) => {
-      this.inputImg = e.target?.result as string;
+      setImgSrc(e.target?.result as string);
     };
   }
-  validateForm(): boolean {
-    console.log(this.inputConsent.current?.checked);
-    if (
-      !this.inputName.current?.value ||
-      !this.inputSurname.current?.value ||
-      (!this.inputGenderMale.current?.checked && !this.inputGenderFemale.current?.checked) ||
-      !(this.inputCountry.current?.value !== 'noValue') ||
-      !this.inputConsent.current?.checked
-    ) {
-      alert('Please fill out all required fields.');
-      return false;
-    } else {
-      return true;
-    }
-  }
-  render() {
-    const { cards } = this.state;
-    return (
-      <div>
-        <form className="form" onSubmit={this.handleSubmit}>
-          <label className="form_label">
-            Name:
-            <input
-              placeholder="Enter your name"
-              className="form_input_text"
-              type="text"
-              ref={this.inputName}
-            />
-          </label>
-          <label data-testid="surname" className="form_label">
-            Surname:
-            <input
-              placeholder="Enter your surname"
-              className="form_input_text"
-              type="text"
-              ref={this.inputSurname}
-            />
-          </label>
-          <label className="form_label">
-            Picture:
-            <input
-              className="input_file"
-              id="files"
-              name="userfile"
-              type="file"
-              onChange={this.handleFileUpload}
-            />
-          </label>
-          <label className="form_label">
-            Country:
-            <select className="form_input_select" defaultValue="noValue" ref={this.inputCountry}>
-              <option value="noValue">Your country</option>
-              <option value="Belarus">Belarus</option>
-              <option value="Poland">Poland</option>
-              <option value="Germany">Germany</option>
-              <option value="England">England</option>
-            </select>
-          </label>
-          <label className="form_label">
-            Gender:
-            <input type="radio" name="gender" value="male" ref={this.inputGenderMale} /> Male
-            <input type="radio" name="gender" value="female" ref={this.inputGenderFemale} /> Female
-          </label>
-          <label className="form_label">
-            <input type="checkbox" ref={this.inputConsent} />I consent to my personal data
-          </label>
-          <button type="submit">Submit</button>
-        </form>
-        <div className="field_card">
-          {cards.map((card, index) => (
-            <SignCard key={index} {...card} />
-          ))}
-        </div>
+  return (
+    <div>
+      <form className="form" onSubmit={onSubmit}>
+        <label className="form_label">
+          Name:
+          <input
+            {...register('name', { required: true })}
+            placeholder="Enter your name"
+            className="form_input_text"
+            type="text"
+          />
+          {errors.name && <p className="error-message">This field is required</p>}
+        </label>
+        <label data-testid="surname" className="form_label">
+          Surname:
+          <input
+            {...register('surname', { required: true })}
+            placeholder="Enter your surname"
+            className="form_input_text"
+            type="text"
+          />
+          {errors.surname && <p className="error-message">This field is required</p>}
+        </label>
+        <label className="form_label">
+          Picture:
+          <input
+            {...register('img')}
+            onChange={handleFileUpload}
+            className="input_file"
+            id="files"
+            name="img"
+            type="file"
+          />
+        </label>
+        <label className="form_label">
+          Country:
+          <select
+            {...register('country', { required: true, validate: (value) => value !== 'noValue' })}
+          >
+            <option value="noValue">Your country</option>
+            <option value="Belarus">Belarus</option>
+            <option value="Poland">Poland</option>
+            <option value="Germany">Germany</option>
+            <option value="England">England</option>
+          </select>
+          {errors.country && <p className="error-message">This field is required</p>}
+        </label>
+        <label className="form_label">
+          Gender:
+          <input {...register('gender', { required: true })} type="radio" value="male" />
+          Male
+          <input {...register('gender', { required: true })} type="radio" value="female" />
+          Female
+          {errors.gender && <p className="error-message">This field is required</p>}
+        </label>
+        <label className="form_label">
+          <input {...register('consent', { required: true })} type="checkbox" />I consent to my
+          personal data
+          {errors.consent && <p className="error-message">This field is required</p>}
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+      <div className="field_card">
+        {cards.map((card, index) => (
+          <SignCard key={index} {...card} />
+        ))}
       </div>
-    );
-  }
+    </div>
+  );
 }
+
 export default SignUp;
