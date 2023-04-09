@@ -7,7 +7,7 @@ function Search({ searchValue, setSearchValue }: IRootProps) {
       onChange={(event: React.ChangeEvent<HTMLInputElement>) => setSearchValue(event.target.value)}
       className="main_search"
       type="text"
-      placeholder="Search bar"
+      placeholder="Search by Name"
     />
   );
 }

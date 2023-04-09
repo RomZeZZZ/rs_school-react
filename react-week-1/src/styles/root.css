@@ -9,35 +9,39 @@
   font-size: 24px;
 }
 .card_field {
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 .card_container {
   margin: 10px;
   width: 200px;
-  height: 220px;
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   box-shadow: 0 16px 32px rgb(0 0 0 / 30%);
 }
+.card_container:hover{
+  cursor: pointer;
+}
 .card_container_img {
   width: 200px;
-  height: 150px;
+  height: 200px;
 }
 .card_container_info {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
 }
 /*------------------Search bar------------------*/
 .main_search {
-  display: block;
-  margin: 0 auto;
-  margin-top: 15px;
-  width: 30%;
   padding: 5px;
   font-size: 24px;
   font-weight: 400;
@@ -56,4 +60,65 @@
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(158, 158, 158, 0.25);
 }
-  
+.search_form {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  margin-top: 15px;
+  width: 360px;
+}
+.button_container {
+  display: flex;
+  margin: 0 auto;
+  margin-top: 15px;
+  width: 200px;
+  justify-content: space-evenly;
+}
+.button {
+  width: 70px;
+  height: 30px;
+}
+
+
+.progress_indicator {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #666;
+}
+
+.progress_indicator span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 5px;
+  animation: move 0.5s infinite linear;
+}
+
+.progress_indicator span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.progress_indicator span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.progress_indicator span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+@keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
