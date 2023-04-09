@@ -6,7 +6,9 @@ function Header() {
   return (
     <header className="header">
       <div className="header_container">
-        <div className="current_page">{currentPage}</div>
+        <div data-testid={'curr_page'} className="current_page">
+          {currentPage}
+        </div>
         <nav className="header_nav">
           <ul className="header_nav_list">
             <li>
@@ -20,7 +22,7 @@ function Header() {
                 className="header_nav_list_link"
                 to="/about"
               >
-                About us
+                About Us
               </Link>
             </li>
             <li>

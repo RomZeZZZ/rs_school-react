@@ -12,7 +12,7 @@ const testUser = {
 };
 
 test('Render user card page', () => {
-  render(<SignCard {...testUser} />);
+  render(<SignCard consent={false} {...testUser} />);
   expect(screen.getByText(/Name/)).toHaveTextContent('Fedor');
   expect(screen.getByText(/Surname/)).toHaveTextContent('Testovich');
   expect(screen.getByText(/Country/)).toHaveTextContent('Belarus');

@@ -10,17 +10,13 @@ function Modal(props: { id: number | null; onClick: () => void }) {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         setCharacterDb(data);
-        console.log(character);
-        console.log(data);
       })
       .catch((error) => {
         console.log('Error fetching data:', error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <div className="modal_overlay">
       {character ? (
@@ -44,7 +40,7 @@ function Modal(props: { id: number | null; onClick: () => void }) {
           </div>
         </div>
       ) : (
-        <div className="modal_processing">Processing...</div>
+        <div className="modal_processing">Progressing...</div>
       )}
     </div>
   );

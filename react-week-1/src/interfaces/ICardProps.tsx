@@ -1,8 +1,8 @@
 interface ICardProps {
   id: number;
   name: string;
-  status: number;
-  species: number;
+  status: string;
+  species: string;
   gender: string;
   image: string;
   location: {

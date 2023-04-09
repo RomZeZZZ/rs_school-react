@@ -60,7 +60,9 @@ function Root({ searchValue, setSearchValue }: IRootProps) {
       <div className="container">
         <form className="search_form" onSubmit={SearchSubmit}>
           <Search searchValue={searchValue} setSearchValue={setSearchValue} />
-          <button type="submit"> Enter </button>
+          <button data-testid="search-button" type="submit">
+            Enter
+          </button>
         </form>
         <div className="button_container">
           <button className="button" onClick={() => ChangePage('prev')}>
@@ -70,7 +72,7 @@ function Root({ searchValue, setSearchValue }: IRootProps) {
             Next
           </button>
         </div>
-        <div className="card_field">
+        <div data-testid="results-container" className="card_field">
           {characters && characters.length !== 0 ? (
             <div className="card_field">
               {characters.map((item: ICardProps) => (

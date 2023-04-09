@@ -3,7 +3,9 @@ import '../styles/error.css';
 function About() {
   return (
     <main className="main">
-      <div className="about_us_page">About us</div>
+      <div data-testid="about_us" className="about_us_page">
+        About us
+      </div>
     </main>
   );
 }
