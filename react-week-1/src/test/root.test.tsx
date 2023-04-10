@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import Root from '../routes/root';
 import { vi } from 'vitest';
 import React from 'react';
@@ -43,7 +43,7 @@ describe('Root component', () => {
     vi.clearAllMocks();
   });
 
-  it('renders the search form', () => {
+  it('renders the search input', async () => {
     render(
       <Root
         searchValue={''}
@@ -52,11 +52,13 @@ describe('Root component', () => {
         }}
       />
     );
-    const searchForm = screen.getByPlaceholderText('Search by Name');
-    expect(searchForm).toBeInTheDocument();
+    await waitFor(() => {
+      const searchInput = screen.getByPlaceholderText('Search by Name');
+      expect(searchInput).toBeInTheDocument();
+    });
   });
 
-  it('renders the search input', () => {
+  it('renders the search button', async () => {
     render(
       <Root
         searchValue={''}
@@ -65,21 +67,10 @@ describe('Root component', () => {
         }}
       />
     );
-    const searchInput = screen.getByPlaceholderText('Search by Name');
-    expect(searchInput).toBeInTheDocument();
-  });
-
-  it('renders the search button', () => {
-    render(
-      <Root
-        searchValue={''}
-        setSearchValue={() => {
-          vi.fn();
-        }}
-      />
-    );
-    const searchButton = screen.getByRole('button', { name: 'Enter' });
-    expect(searchButton).toBeInTheDocument();
+    await waitFor(() => {
+      const searchButton = screen.getByRole('button', { name: 'Enter' });
+      expect(searchButton).toBeInTheDocument();
+    });
   });
 
   it('fetches and renders the characters data', async () => {
@@ -95,7 +86,7 @@ describe('Root component', () => {
     expect(characterName).toBeInTheDocument();
   });
 
-  it('renders the next button', () => {
+  it('renders the next button', async () => {
     render(
       <Root
         searchValue={''}
@@ -104,11 +95,13 @@ describe('Root component', () => {
         }}
       />
     );
-    const nextButton = screen.getByRole('button', { name: 'Next' });
-    expect(nextButton).toBeInTheDocument();
+    await waitFor(() => {
+      const nextButton = screen.getByRole('button', { name: 'Next' });
+      expect(nextButton).toBeInTheDocument();
+    });
   });
 
-  it('renders the prev button', () => {
+  it('renders the prev button', async () => {
     render(
       <Root
         searchValue={''}
@@ -117,8 +110,10 @@ describe('Root component', () => {
         }}
       />
     );
-    const prevButton = screen.getByRole('button', { name: 'Prev' });
-    expect(prevButton).toBeInTheDocument();
+    await waitFor(() => {
+      const prevButton = screen.getByRole('button', { name: 'Prev' });
+      expect(prevButton).toBeInTheDocument();
+    });
   });
 
   it('fetches and renders the next page of characters when next button is clicked', async () => {
@@ -162,13 +157,14 @@ describe('Root component', () => {
     );
 
     const searchInput = getByPlaceholderText('Search by Name');
-    fireEvent.change(searchInput, { target: { value: 'rick' } });
-
     const searchButton = getByTestId('search-button');
-    fireEvent.click(searchButton);
 
     await waitFor(() => {
-      expect(getByTestId('results-container')).toBeInTheDocument();
+      act(() => {
+        fireEvent.change(searchInput, { target: { value: 'rick' } });
+        fireEvent.click(searchButton);
+        expect(getByTestId('results-container')).toBeInTheDocument();
+      });
     });
   });
 });
