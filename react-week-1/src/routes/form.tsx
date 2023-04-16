@@ -1,12 +1,24 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { addUser } from '../store/usersSlice';
 import '../styles/form.css';
 import IFormData from 'interfaces/IForm';
 import SignCard from '../components/signCard';
-
+interface IRootState {
+  users: {
+    users: IFormData[];
+  };
+}
 function SignUp() {
+  const userCards = useSelector((state: IRootState) => {
+    return state.users.users;
+  });
+  console.log(userCards);
   const [cards, setCards] = useState<IFormData[]>([]);
-  const [imgSrc, setImgSrc] = useState<string>('https://i.ibb.co/cCX7H8d/pngegg.png');
+  const dispatch = useDispatch();
+  const addCardToStore = (data: IFormData) => dispatch(addUser(data));
+  const [imgSrc, setImgSrc] = useState<string>('https://i.ibb.co/Csh999Y/pngegg.png');
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
   const {
     register,
@@ -14,10 +26,11 @@ function SignUp() {
     reset,
     formState: { errors },
   } = useForm<IFormData>();
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit((data: IFormData) => {
     data.img = imgSrc;
-    setImgSrc('https://i.ibb.co/cCX7H8d/pngegg.png');
+    setImgSrc('https://i.ibb.co/Csh999Y/pngegg.png');
     setCards([...cards, data]);
+    addCardToStore(data);
     setIsSubmitSuccessful(true);
     setTimeout(() => {
       setIsSubmitSuccessful(false);
@@ -96,7 +109,7 @@ function SignUp() {
         <button type="submit">Submit</button>
       </form>
       <div className="field_card">
-        {cards.map((card, index) => (
+        {userCards.map((card, index) => (
           <SignCard key={index} {...card} />
         ))}
       </div>

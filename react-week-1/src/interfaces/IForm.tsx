@@ -1,4 +1,4 @@
-interface IFormData {
+export interface IFormData {
   name: string;
   surname: string;
   country: string;
