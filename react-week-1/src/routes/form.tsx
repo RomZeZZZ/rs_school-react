@@ -3,13 +3,9 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { addUser } from '../store/usersSlice';
 import '../styles/form.css';
-import IFormData from 'interfaces/IForm';
+import IFormData from '../interfaces/IForm';
+import IRootState from '../interfaces/IRootState';
 import SignCard from '../components/signCard';
-interface IRootState {
-  users: {
-    users: IFormData[];
-  };
-}
 function SignUp() {
   const userCards = useSelector((state: IRootState) => {
     return state.users.users;

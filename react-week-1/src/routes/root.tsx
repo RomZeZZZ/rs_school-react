@@ -4,10 +4,14 @@ import Card from '../components/card';
 import PrograssingMsg from '../components/progressing';
 import Modal from '../components/modal';
 import '../styles/root.css';
-import IRootProps from 'interfaces/IRootProps';
 import ICardProps from 'interfaces/ICardProps';
 import ICardPages from 'interfaces/ICardPages';
-function Root({ searchValue, setSearchValue }: IRootProps) {
+import { useSelector } from 'react-redux';
+import IRootState from 'interfaces/IRootState';
+function Root() {
+  const searchValue: string = useSelector((state: IRootState) => {
+    return state.inputSearch.text;
+  });
   const [characters, setCharactersDb] = useState<ICardProps[]>([]);
   const [showModal, setShowModal] = useState({ status: false, id: null as number | null });
   const [pages, setPages] = useState<ICardPages>();
@@ -59,7 +63,7 @@ function Root({ searchValue, setSearchValue }: IRootProps) {
       )}
       <div className="container">
         <form className="search_form" onSubmit={SearchSubmit}>
-          <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+          <Search />
           <button data-testid="search-button" type="submit">
             Enter
           </button>
