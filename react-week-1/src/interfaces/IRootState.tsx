@@ -6,6 +6,7 @@ interface IRootState {
   };
   inputSearch: {
     text: string;
+    page: number;
   };
 }
 export default IRootState;

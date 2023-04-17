@@ -1,16 +1,42 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { expect, vi } from 'vitest';
 import React from 'react';
-import Search from '../components/search_bar';
+import { render, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import SearchBar from '../components/search_bar';
 
-test('Render Search Bar', () => {
-  const mokerSearch = vi.fn();
-  render(<Search searchValue={'test_search'} setSearchValue={mokerSearch} />);
-  const input = screen.getByPlaceholderText('Search by Name');
+describe('SearchBar component', () => {
+  const initialState = {
+    inputSearch: {
+      text: '',
+      page: 1,
+    },
+  };
+  const mockStore = configureStore();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let store: any;
 
-  expect(screen.getByDisplayValue('test_search')).toBeInTheDocument();
+  beforeEach(() => {
+    store = mockStore(initialState);
+  });
 
-  fireEvent.change(input, { target: { value: 'new_test_value' } });
+  it('should render input with placeholder text', () => {
+    const { getByPlaceholderText } = render(
+      <Provider store={store}>
+        <SearchBar />
+      </Provider>
+    );
+    const inputElement = getByPlaceholderText('Search by Name');
+    expect(inputElement).toBeInTheDocument();
+  });
 
-  expect(mokerSearch).toBeCalledWith('new_test_value');
+  it('should update store state when input value changes', () => {
+    const { getByPlaceholderText } = render(
+      <Provider store={store}>
+        <SearchBar />
+      </Provider>
+    );
+    const inputElement = getByPlaceholderText('Search by Name');
+    fireEvent.change(inputElement, { target: { value: 'charmander' } });
+    expect(store.getActions()).toEqual([{ type: 'search/setSearchValue', payload: 'charmander' }]);
+  });
 });

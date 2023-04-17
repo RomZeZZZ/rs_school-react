@@ -1,60 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Search from '../components/search_bar';
 import Card from '../components/card';
 import PrograssingMsg from '../components/progressing';
 import Modal from '../components/modal';
 import '../styles/root.css';
 import ICardProps from 'interfaces/ICardProps';
-import ICardPages from 'interfaces/ICardPages';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import IRootState from 'interfaces/IRootState';
+import { setPageNumber } from '../store/searchSlice';
+import { useGetCardsByNameQuery } from '../store/fetchApi';
 function Root() {
+  const dispatch = useDispatch();
+  const setPage = (value: number) => {
+    dispatch(setPageNumber(value));
+  };
+  const pageNumber: number = useSelector((state: IRootState) => {
+    return state.inputSearch.page;
+  });
   const searchValue: string = useSelector((state: IRootState) => {
     return state.inputSearch.text;
   });
-  const [characters, setCharactersDb] = useState<ICardProps[]>([]);
+  const [searchInputValue, setSearchInputValue] = useState(searchValue);
+  const {
+    data: byNameData,
+    error: byNameError,
+    isLoading: byNameLoad,
+  } = useGetCardsByNameQuery({
+    name: searchInputValue,
+    page: pageNumber,
+  });
   const [showModal, setShowModal] = useState({ status: false, id: null as number | null });
-  const [pages, setPages] = useState<ICardPages>();
-  const [message, setMessage] = useState('Progressing...');
-  function fetchCharactersData(apiUrl: string): void {
-    setMessage('Progressing...');
-    setCharactersDb([]);
-    fetch(apiUrl)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setCharactersDb(data.results);
-        !data.error
-          ? setPages({ next: data.info.next, prev: data.info.prev })
-          : (() => {
-              setMessage(data.error);
-              setPages({ next: '', prev: '' });
-            })();
-      })
-      .catch((error) => {
-        console.log('Error fetching data:', error);
-        setMessage('Ups something went wrong');
-      });
-  }
-  useEffect(() => {
-    searchValue
-      ? fetchCharactersData(`https://rickandmortyapi.com/api/character/?name=${searchValue}`)
-      : fetchCharactersData(`https://rickandmortyapi.com/api/character`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   function ChangePage(page: string): void {
-    if (page === 'next' && pages && pages.next) {
-      fetchCharactersData(pages.next);
-    } else if (pages && pages.prev) {
-      fetchCharactersData(pages.prev);
+    if (page === 'next' && byNameData?.info.next) {
+      setPage(pageNumber + 1);
+    } else if (byNameData?.info.prev) {
+      setPage(pageNumber - 1);
     }
   }
   function SearchSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    searchValue
-      ? fetchCharactersData(`https://rickandmortyapi.com/api/character/?name=${searchValue}`)
-      : fetchCharactersData(`https://rickandmortyapi.com/api/character`);
+    setPage(1);
+    setSearchInputValue(searchValue);
   }
   return (
     <main className="main">
@@ -77,9 +63,9 @@ function Root() {
           </button>
         </div>
         <div data-testid="results-container" className="card_field">
-          {characters && characters.length !== 0 ? (
+          {byNameData?.results && !byNameLoad && !byNameError ? (
             <div className="card_field">
-              {characters.map((item: ICardProps) => (
+              {byNameData.results.map((item: ICardProps) => (
                 <Card
                   onClick={() => setShowModal({ status: true, id: item.id })}
                   key={item.id}
@@ -88,7 +74,10 @@ function Root() {
               ))}
             </div>
           ) : (
-            <PrograssingMsg message={message} />
+            <>
+              {byNameLoad && <PrograssingMsg message="Loading..." />}
+              {byNameError && <PrograssingMsg message="There is nothing here" />}
+            </>
           )}
         </div>
       </div>
